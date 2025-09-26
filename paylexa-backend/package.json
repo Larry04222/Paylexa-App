@@ -1,0 +1,16 @@
+{
+  "name": "paylexa-backend",
+  "version": "1.0.0",
+  "description": "Paylexa backend with Express-like routing and Prisma-style data layer",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js",
+    "seed": "node prisma/seed.js",
+    "test": "node --test"
+  },
+  "keywords": ["express", "prisma", "paylexa"],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs"
+}
