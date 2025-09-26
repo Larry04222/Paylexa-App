@@ -1,0 +1,99 @@
+{
+  "users": [
+    {
+      "email": "kyc@example.com",
+      "passwordHash": "910f4c7b50e4636d054a6f0a4b7e9606:d14f25c07847d29c39b848287a2509d00ca85f651baaea8cfaf2236d6119e47cc0ab1beaddfccab200164acf988ee9da17438b8fecbcfa8b2c79c233ecb180ac",
+      "fullName": "Kyc User",
+      "twoFactorEnabled": false,
+      "twoFactorSecret": null,
+      "createdAt": "2025-09-26T17:58:14.077Z",
+      "updatedAt": "2025-09-26T17:58:14.077Z",
+      "id": "1982552f-5962-4c48-90eb-36e7e858c3a9"
+    }
+  ],
+  "kycs": [
+    {
+      "userId": "1982552f-5962-4c48-90eb-36e7e858c3a9",
+      "documentType": "PASSPORT",
+      "documentNumber": "B7654321",
+      "metadata": {
+        "country": "US"
+      },
+      "status": "PENDING",
+      "createdAt": "2025-09-26T17:58:14.189Z",
+      "updatedAt": "2025-09-26T17:58:14.197Z",
+      "id": "f04355f5-ce62-42e2-9fb0-9816d3754d02"
+    }
+  ],
+  "wallets": [
+    {
+      "userId": "1982552f-5962-4c48-90eb-36e7e858c3a9",
+      "currencyCode": "USD",
+      "balance": 0,
+      "createdAt": "2025-09-26T17:58:14.077Z",
+      "updatedAt": "2025-09-26T17:58:14.077Z",
+      "id": "c4f7426f-cb8e-45dd-bf76-41f73aa53bd7"
+    },
+    {
+      "userId": "1982552f-5962-4c48-90eb-36e7e858c3a9",
+      "currencyCode": "CAD",
+      "balance": 0,
+      "createdAt": "2025-09-26T17:58:14.077Z",
+      "updatedAt": "2025-09-26T17:58:14.077Z",
+      "id": "9d9d6489-db41-4e3e-be4b-a92418161bfe"
+    },
+    {
+      "userId": "1982552f-5962-4c48-90eb-36e7e858c3a9",
+      "currencyCode": "NGN",
+      "balance": 0,
+      "createdAt": "2025-09-26T17:58:14.077Z",
+      "updatedAt": "2025-09-26T17:58:14.077Z",
+      "id": "1cf45ab6-41b0-41b5-853c-a75522abecce"
+    }
+  ],
+  "sessions": [
+    {
+      "userId": "1982552f-5962-4c48-90eb-36e7e858c3a9",
+      "refreshTokenHash": "f6ad328410221998b06387f184cfa26b595fb5a55c9a40a3ad18be42a3017ed5",
+      "expiresAt": "2025-10-03T17:58:14.000Z",
+      "createdAt": "2025-09-26T17:58:14.183Z",
+      "updatedAt": "2025-09-26T17:58:14.183Z",
+      "deviceFingerprintId": null,
+      "id": "b6639100-7501-4f00-bcbc-9dbda00eb260"
+    }
+  ],
+  "deviceFingerprints": [],
+  "featureToggles": [],
+  "statements": [],
+  "settings": [
+    {
+      "userId": "1982552f-5962-4c48-90eb-36e7e858c3a9",
+      "preferences": {
+        "notifications": true
+      },
+      "createdAt": "2025-09-26T17:58:14.077Z",
+      "updatedAt": "2025-09-26T17:58:14.077Z",
+      "id": "04a310f8-8f76-4a62-b505-ff8e8b6fcb46"
+    }
+  ],
+  "currencies": [
+    {
+      "code": "USD",
+      "name": "US Dollar",
+      "createdAt": "2025-09-26T17:58:13.929Z",
+      "id": "4992b200-35f9-4ccd-8093-00454c6bb188"
+    },
+    {
+      "code": "CAD",
+      "name": "Canadian Dollar",
+      "createdAt": "2025-09-26T17:58:13.929Z",
+      "id": "911fe63d-f448-4034-b0b0-915c8f433b01"
+    },
+    {
+      "code": "NGN",
+      "name": "Nigerian Naira",
+      "createdAt": "2025-09-26T17:58:13.929Z",
+      "id": "db4c00db-51f3-42ea-b662-55fa686431be"
+    }
+  ]
+}
