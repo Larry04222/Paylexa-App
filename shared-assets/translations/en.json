@@ -1,0 +1,24 @@
+{
+  "app": {
+    "name": "Paylexa",
+    "tagline": "Borderless finance with Phoenix-grade security"
+  },
+  "navigation": {
+    "home": "Home",
+    "wallet": "Wallet",
+    "exchange": "P2P Exchange",
+    "cards": "Virtual Cards",
+    "marketplace": "Marketplace",
+    "support": "Support"
+  },
+  "actions": {
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "topUp": "Top up",
+    "send": "Send money"
+  },
+  "notifications": {
+    "kycReminder": "Complete your KYC to unlock higher limits.",
+    "securityAlert": "Morphon-X flagged unusual activity. Review now."
+  }
+}

@@ -1,0 +1,12 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="phoenixFlame" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B8860B" />
+      <stop offset="0.5" stop-color="#FF7A18" />
+      <stop offset="1" stop-color="#0033A0" />
+    </linearGradient>
+  </defs>
+  <path d="M32 6c-5.8 4.8-9.9 9.6-12.4 14.6-3.6 7-3 14.8 1.8 19.6l-5.2 5.2c6.8 2.4 12.2 1.6 16.4-1.8 4.2 3.4 9.6 4.2 16.4 1.8l-5.2-5.2c4.8-4.8 5.4-12.6 1.8-19.6C41.9 15.6 37.8 10.8 32 6z" stroke="url(#phoenixFlame)" stroke-width="3" stroke-linejoin="round" fill="none" />
+  <path d="M24 34c1.2 3.6 3.6 6 8 8 4.4-2 6.8-4.4 8-8-4 1.6-7.8 1.6-16 0z" fill="#FFB347" opacity="0.6" />
+  <circle cx="32" cy="24" r="4" fill="#FFFFFF" />
+</svg>
