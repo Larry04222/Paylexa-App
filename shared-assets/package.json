@@ -1,0 +1,15 @@
+{
+  "name": "@paylexa/shared-assets",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./branding/colors.json": "./branding/colors.json",
+    "./ui-tokens/spacing.json": "./ui-tokens/spacing.json",
+    "./ui-tokens/radii.json": "./ui-tokens/radii.json",
+    "./ui-tokens/elevation.json": "./ui-tokens/elevation.json",
+    "./i18n/en.json": "./i18n/en.json",
+    "./i18n/fr.json": "./i18n/fr.json",
+    "./i18n/es.json": "./i18n/es.json"
+  }
+}

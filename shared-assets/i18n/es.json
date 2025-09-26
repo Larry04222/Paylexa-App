@@ -1,0 +1,16 @@
+{
+  "app": {
+    "name": "Paylexa",
+    "tagline": "Finanzas sin fronteras de lujo"
+  },
+  "nav": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "security": "Seguridad",
+    "marketplace": "Mercado"
+  },
+  "cta": {
+    "getStarted": "Comenzar",
+    "learnMore": "Saber más"
+  }
+}

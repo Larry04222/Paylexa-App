@@ -1,0 +1,11 @@
+{
+  "name": "paylexa-app",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@8.15.4",
+  "scripts": {
+    "lint": "pnpm -r lint",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test"
+  }
+}

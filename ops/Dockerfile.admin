@@ -1,0 +1,31 @@
+# syntax=docker/dockerfile:1
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package.json pnpm-workspace.yaml ./
+COPY paylexa-admin/package.json paylexa-admin/
+RUN corepack enable && corepack prepare pnpm@8.15.4 --activate && pnpm install --filter paylexa-admin...
+
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /root/.local/share/pnpm /root/.local/share/pnpm
+COPY --from=deps /app/node_modules /app/node_modules
+COPY package.json pnpm-workspace.yaml ./
+COPY shared-assets shared-assets
+COPY paylexa-admin paylexa-admin
+RUN corepack enable && corepack prepare pnpm@8.15.4 --activate && pnpm --filter paylexa-admin build
+
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+COPY package.json pnpm-workspace.yaml ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/paylexa-admin/.next ./paylexa-admin/.next
+COPY --from=builder /app/paylexa-admin/package.json ./paylexa-admin/package.json
+COPY --from=builder /app/paylexa-admin/next.config.mjs ./paylexa-admin/next.config.mjs
+COPY --from=builder /app/paylexa-admin/public ./paylexa-admin/public
+COPY --from=builder /app/paylexa-admin/postcss.config.cjs ./paylexa-admin/postcss.config.cjs
+COPY --from=builder /app/paylexa-admin/tailwind.config.ts ./paylexa-admin/tailwind.config.ts
+COPY --from=builder /app/paylexa-admin/tsconfig.json ./paylexa-admin/tsconfig.json
+RUN corepack enable && corepack prepare pnpm@8.15.4 --activate && pnpm install --prod --filter paylexa-admin...
+EXPOSE 3000
+CMD ["pnpm", "--filter", "paylexa-admin", "start"]

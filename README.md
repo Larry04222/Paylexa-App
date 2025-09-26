@@ -1,671 +1,73 @@
-Paylexa – Full Developer Specification 1. Project Overview
+# Paylexa Monorepo
 
-Paylexa is a luxury-grade fintech ecosystem (Mobile App + Website + Admin Panel +
+Paylexa is a premium fintech ecosystem that unifies consumer wallets, marketplace escrow, merchant tooling, and Morphon-X AI security. This repository hosts every surface area (backend, web, admin, and mobile) plus shared assets, operational tooling, and CI/CD automation.
 
-Backend + AI Security) designed to provide borderless payments, multi-currency wallets, P2P/P2B/B2C exchange, virtual cards, merchant/student modules, marketplace and real-time AI security monitoring powered by Morphon-X.
+## Milestone 0 Scope
 
-Branding & Design Standards
-• Theme Colors:
+The current milestone focuses on a production-ready baseline:
 
-o Dark Gold #B8860B
+- pnpm workspaces with shared ESLint/Prettier configuration
+- Node.js + TypeScript backend wired for Prisma, PostgreSQL, Redis, JWT auth, and Morphon-X hooks
+- Vite/Tailwind marketing web app with brand-forward landing sections
+- Next.js-based admin console leveraging shadcn-inspired primitives
+- Expo SDK 53 React Native mobile shell aligned to onboarding and compliance flows
+- Shared branding, UI tokens, and localisation seeds
+- Docker Compose stack for local integration (PostgreSQL, Redis, backend, web, admin)
+- GitHub Actions pipeline for linting, building, testing, and Docker smoke builds
 
-o Black #000000
+Future milestones (auth, wallets, KYC, marketplace, Morphon-X, etc.) build upon this foundation.
 
-o White #FFFFFF
+## Repository Structure
 
-o Emerald Green #009B77
+```
+/Paylexa-mobile      Expo (SDK 53) application shell with navigation & theming
+/paylexa-web         Vite + React marketing experience using shared tokens
+/paylexa-admin       Next.js admin console with shadcn-style UI components
+/paylexa-backend     Express + Prisma API service with modular architecture
+/shared-assets       Brand palette, UI tokens, and i18n JSON shared across apps
+/ops                 Dockerfiles, docker-compose stack, operational runbook
+/.github/workflows   GitHub Actions automation
+/.gh-workflows       Mirrors CI specs for ops visibility
+```
 
-o Royal Blue #0033A0
+## Getting Started
 
-• UI Style Guide:
+1. **Install dependencies**
+   ```bash
+   corepack enable
+   corepack prepare pnpm@8.15.4 --activate
+   pnpm install
+   ```
+2. **Generate Prisma client**
+   ```bash
+   pnpm --filter paylexa-backend prisma generate
+   ```
+3. **Start development servers**
+   ```bash
+   pnpm --filter paylexa-backend dev        # http://localhost:4000
+   pnpm --filter paylexa-web dev            # http://localhost:5173
+   pnpm --filter paylexa-admin dev          # http://localhost:3000
+   pnpm --filter paylexa-mobile start       # Expo developer tools
+   ```
 
-o Rounded corners (12px+)
+## Environment Configuration
 
-o Soft shadows and depth effects
+Copy `paylexa-backend/.env.example` to `.env` and adjust the secrets before running the API or docker-compose stack. The example includes keys for PostgreSQL, Redis, JWT, SMTP, Morphon-X, cards, utilities, and swap providers.
 
-o Clean, premium typography
+## CI/CD
 
-o Animated Phoenix logo (fire flickering, blinking, breathing)
+The GitHub Actions workflow performs linting, builds, tests, and Docker image smoke builds on every push/PR targeting `main`. Extend the workflow with deployment jobs once OVHcloud/Hostinger secrets are provisioned.
 
-• Design References:
+## Docker Stack
 
-o Revolut → Clean financial UI o Binance P2P → Trading experience o N26 → Minimalist banking feel 3. Opay swift and ease transaction Core Features
+Use the provided Compose file for end-to-end local validation:
 
-A. Wallet System
+```bash
+docker compose -f ops/docker-compose.yml up --build
+```
 
-• Multi-currency wallets (USD, CAD, NGN; expandable to EUR, GBP, GHS, ZAR, KES).
+This launches PostgreSQL, Redis, the backend API (`http://localhost:4000/api/health`), the marketing web (`http://localhost:4173`), and the admin console (`http://localhost:3000`).
 
-• Deposit & withdrawal via bank transfer or card.
+## Backups & Disaster Recovery
 
-• KYC-verified account setup.
-
-• Assigns unique account numbers via integrated banking partners.
-
-B. P2P Exchange
-
-• Escrow-based trades (securely holds funds until trade completes).
-
-• Live market rates + custom offers.
-
-• In-app chat system for buyers/sellers.
-
-• AI-monitored transactions for fraud detection.
-
-C. B2C & B2B Models
-
-• B2C → Swap directly with Paylexa at platform rates.
-
-• B2B → Merchant-to-Merchant & Merchant-to-Paylexa settlements.
-
-• Advanced merchant dashboards with KYC tiers, API keys, and automated settlements.
-
-D. Virtual Cards
-
-• USD Virtual Cards with Apple Pay & Google Pay integration.
-
-• Freeze/unfreeze cards instantly.
-
-• AI fraud checks per transaction.
-
-E. Student Payment Module
-
-• Upload invoices or school IDs.
-
-• Pay tuition, hostel fees, and service fees globally.
-
-• Automated proof-of-payment generation.
-
-F. Utility & Airtime
-
-• Country-based utility bill payments.
-
-• Airtime and data top-up.
-
-• Betting wallet top-up integration.
-
-G. KYC & Compliance
-
-• Multi-tier verification: o Level 1: Basic ID + OTP
-
-o Level 2: Address verification + biometrics o Level 3: Advanced documents (business license, tax ID)
-
-• Supports Canada, Nigeria, EU, and U.S. compliance.
-
-H. AI Security (Morphon-X)
-
-• Monitors:
-
-o Suspicious logins by IP/device.
-
-o Large transaction patterns.
-
-o Abnormal crypto swaps.
-
-• Features:
-
-o Auto-account lockouts.
-
-o Admin alerts + live reports.
-
-o Real-time fraud scoring.
-
-Mobile App Specification
-• Framework: React Native + Expo SDK 53.
-
-• Language: TypeScript + SecureStore + Axios.
-
-• Navigation: React Navigation + Bottom Tab Navigator.
-
-• Features:
-
-o Multi-currency dashboard.
-
-o Transaction history with filtering.
-
-o KYC upload screens.
-
-o Live P2P trade management.
-
-o Virtual card integration.
-
-o 2FA + Biometric authentication.
-
-o In-app AI support chatbot.
-
-Web & Admin Panel
-Paylexa Web App
-
-• Built with Vite + React + Tailwind CSS.
-
-• Responsive for landing + user dashboard.
-
-• Redirects to app store downloads.
-
-Admin Dashboard
-
-• Super Admin:
-
-o Manage users, merchants, and sub-admins.
-
-o Activate/deactivate features per country.
-
-o Control transaction limits and daily thresholds.
-
-• Sub-Admins:
-
-o Finance: Wallets, liquidity, P2P trades.
-
-o Compliance: KYC & AML monitoring.
-
-o Support: Live dispute management.
-
-o Marketing: Promotions & referral campaigns.
-
-Backend & Infrastructure
-• Tech Stack:
-
-📱 Mobile App (paylexa-mobile)
-Framework: React Native (Expo SDK 53)
-Language: TypeScript
-UI: Tailwind via Nativewind
-Navigation: React Navigation (stack + bottom tabs)
-State: Zustand
-API Client: Axios
-Secure Storage: Expo SecureStore
-Notifications: Expo Notifications
-🖥️ Web (paylexa-web)
-React + Vite
-TailwindCSS
-TypeScript
-👩‍💻 Admin Dashboard (paylexa-admin)
-React + Vite
-TailwindCSS
-TypeScript
-🛠️ Backend (paylexa-backend)
-Node.js + Express
-TypeScript
-PostgreSQL with Prisma ORM
-JWT + 2FA authentication
-Winston logging + Morgan middleware
-Helmet, CORS, Rate Limiter (ISO 27001 aligned security)
-Web/Admin (paylexa-web/.env & paylexa-admin/.env)
-
-VITE_BACKEND_URL=http://localhost:5000/api
-
-o Node.js + Express + TypeScript
-
-o PostgreSQL
-
-o JWT Authentication + 2FA
-
-o Queue system for async processes
-
-o Redis caching + WebSocket notifications
-
-• Hosting:
-
-o Primary: OVHcloud VPS (Canada) o Backup: Hostinger (Africa)
-
-• Deployment:
-
-o Docker containers
-
-o GitHub Actions CI/CD
-
-o HTTPS + SSL
-
-o WAF + DDoS protection
-
-Security & Compliance
-• Authentication:
-
-o JWT tokens + Refresh tokens.
-
-o 2FA via SMS/email/app.
-
-o Session timeout + idle detection.
-
-• Encryption:
-
-o AES-256 for wallet data.
-
-o HTTPS/TLS 1.3 secured APIs.
-
-• Compliance:
-
-o ISO 27001 aligned.
-
-o GDPR & CCPA ready.
-
-o Canada MSB & Nigeria CBN licensing ready.
-
-Future Roadmap
-• Phase 2:
-
-o Crypto↔Fiat swaps.
-
-o Advanced merchant payment gateway.
-
-o Remittance corridors.
-
-• Phase 3:
-
-o Physical card issuing.
-
-o Marketplace for goods & services.
-
-o Travel planner & budgeting tools.
-
-Delivery & Documentation
-• Private GitHub repo with protected branches.
-
-• .env.example for secrets.
-
-• Complete wireframes + clickable prototypes.
-
-• API documentation with Swagger.
-
-• Deployment guide + developer onboarding kit.
-
-Paylexa Full Technical Architecture 1. Frontend Layer
-
-• Paylexa Mobile App (React Native + Expo SDK 53) o User dashboard
-
-o P2P marketplace
-
-o Multi-currency wallet
-
-o KYC module
-
-o Virtual cards
-
-o In-app Morphon AI security alerts
-
-• Paylexa Web (React + Vite + Tailwind) o Landing page
-
-o User dashboard mirror
-
-o Admin access portal
-
-Backend Layer (Node.js + Express + TypeScript)
-• API Gateway
-
-o JWT-secured routes
-
-o Role-based permissions (Admin / Sub-admin / Merchant / User)
-
-• Core Microservices
-
-o Wallet Service → balances, deposits, withdrawals.
-
-o P2P Exchange Service → trades, escrow, settlements.
-
-o Merchant Service → API keys, B2B transactions, bulk settlements.
-
-o KYC Service → automated identity verification.
-
-o Utility Service → airtime, data, and bill top-ups.
-
-o Virtual Card Service → issuance, freeze/unfreeze, spending limits.
-
-o AI Security Service (Morphon-X) → fraud detection, anomaly scoring.
-
-o Notification Service → WebSockets + push notifications.
-
-Database Layer (MongoDB Atlas + Redis)
-• Collections:
-
-o Users
-
-o Wallets
-
-o Transactions
-
-o P2P Trades
-
-o Cards
-
-o Merchant API Keys
-
-o KYC Submissions
-
-o Security Logs
-
-• Caching Layer:
-
-o Redis used for:
-
-▪ Session management
-
-▪ Rate limiting
-
-▪ AI scoring cache
-
-AI Security Layer (Morphon-X)
-• Real-time Monitoring:
-
-o Suspicious login behavior
-
-o High-value transaction alerts
-
-o IP-based fraud detection
-
-• Automations:
-
-o Auto-lock flagged accounts
-
-o Send notifications to admin dashboard o Maintain live risk reports
-
-Admin Panel Layer
-• Super Admin
-
-o Feature activation/deactivation
-
-o Real-time fraud monitoring
-
-o Country-based transaction limits
-
-o Sub-admin role assignment
-
-• Sub-admins:
-
-o Compliance team manages KYC/AML
-
-o Support team handles disputes
-
-o Merchant team reviews B2B APIs
-
-o Finance team oversees liquidity 6. Infrastructure & Deployment
-
-• Primary Hosting: OVHcloud VPS (Canada)
-
-• Backup Hosting: Hostinger (Africa)
-
-• Deployment Workflow:
-
-o Dockerized containers
-
-o GitHub Actions CI/CD
-
-o Horizontal scaling enabled
-
-• Security Measures:
-
-o TLS 1.3 with SSL termination
-
-o WAF + DDoS protection
-
-o Automated backups + failover routing
-
-Each feature/component should be developed as a modular microservice, allowing independent failure handling, hot-swappable updates, and seamless horizontal scaling. The AI Security Layer acts as an internal watchdog across all services. All components must integrate through secure APIs and follow strict security, compliance, and performance rules.
-
-PHASE 1: MVP — Core Wallet System + P2P Exchange (Mobile App + Website) 1. User Account System
-
-• Registration/Login (email, phone, password, 2FA)
-
-• KYC Verification (via 3rd-party provider like Sumsub or ShuftiPro) Comment: Use step-based onboarding flow; must pass KYC to access core wallet features.
-
-• User Dashboard
-
-o Wallet Balances (USD, CAD, NGN)
-
-o Transaction History (Filter by currency/date/type) o Notifications (real-time, system + email + push) 2. Wallet System
-
-• Multi-Currency Wallets (USD, CAD, NGN) o Allow internal transfers within platform between users o Enable external transfers to other bank accounts/wallets (via API) o Enable cross-wallet swap (USD ⇄ CAD ⇄ NGN) o Crypto Wallets (BTC & USDT)
-
-• Top-Up / Withdraw via Bank, Card, Crypto Comment: Must integrate with a licensed Payment Processor like Paystack,
-
-Flutterwave, Wyre, Transak, etc. depending on country.
-
-P2P Exchange Marketplace
-• List Offers (Buy/Sell) for Fiat & Crypto
-
-• Escrow for secure transactions
-
-• Rate suggestion engine
-
-• Offer filtering by location, currency, rate
-
-• Auto-match engine (for fast exchange)
-
-• Notification System for offers, payments, disputes Must integrate dispute handling APIs. Use secure WebSockets or push notification for real-time updates.
-
-Virtual Dollar Card (Phase 1 Add-on)
-• Issue and manage USD virtual cards
-
-• Limit one active card per user (for MVP)
-
-• Funding card from wallet
-
-• View card details + freeze/unfreeze + delete
-
-• Card transactions logs (history + merchant info)
-
-• Connect to third-party card provider (e.g. Union54, ImaliPay, Flutterwave Cards) 5. Real-Time Notifications
-
-• For each transaction event: Buy, Sell, Card usage, Login, Transfer, etc.
-
-• Push notifications (Firebase Cloud Messaging)
-
-• Email alerts (via SendGrid or Mailgun)
-
-• Chat support notification per department 6. Chatbot Support (AI-Integrated)
-
-• User-facing bot for help, FAQ, feature guidance
-
-• Routes to human agent if issue is complex
-
-• Internal bot for staff: alert system, real-time AI summaries of issue tickets 7. Basic Admin Panel
-
-• View users, manage KYC status, ban/flag account
-
-• View all P2P offers, disputes, card issues
-
-• View top-ups, withdrawals
-
-• Suspend/Enable features per country 8. AI Security & Monitoring System
-
-• Real-time behavioral analysis of users
-
-• Detect suspicious patterns (multiple devices, irregular transfers, repeated logins)
-
-• Flag accounts, temporarily lock, and alert relevant admin dept
-
-• Protect against external RAT/malware attacks
-
-• Ability to quarantine and recover from external breach
-
-• Auto report performance drops, upcoming downtimes or bottlenecks
-
-• Self-protective and self-healing logic enabled Must be integrated across all services as a central AI Security Bus. Train with historical patterns and anomaly detection models (Unsupervised ML).
-
-PHASE 2: Advanced Fintech Functions + Merchant System 1. Marketplace/Merchant Module
-
-• Verified merchants can create buy/sell pages for gift cards, crypto, digital products
-
-• Merchants can fund wallet, set rates, limit buyers by country or volume
-
-• Escrow with automatic confirmation after time limit
-
-• Buyers can filter merchants by rating, rate, reviews
-
-Bank Transfer Expansion
-• Send to Local Bank Accounts (NGN, USD, CAD)
-
-• Connect to licensed payout APIs (Monnify, Paystack, Wise)
-
-• Internal Bank Transfers (CAD → CAD) within platform
-
-• Pay school fees, bills (Canada, Nigeria)
-
-• Local utility bill APIs per country 3. Remittance Flow
-
-• Enable direct USD→NGN, CAD→NGN transfers for foreign workers/students
-
-• Auto match or platform-based exchange
-
-• Option to convert and send with real-time FX
-
-Super Admin Panel
-• Global view of:
-
-o Revenue, float, card usage
-
-o P2P volumes by country
-
-o Dispute analytics
-
-o Transaction logs
-
-• Enable/disable features per country
-
-• Monthly / Quarterly investor report generator (PDF/CSV) 5. Notification/Alert Logic (All Departments)
-
-• Finance gets alerts for flagged transactions, large top-ups
-
-• Support team gets alerts for disputes, chat messages
-
-• CTO gets security alerts from AI system
-
-• HR gets flagged accounts with staff mentions
-
-• Chat mentions trigger internal ping (Slack-like system or email) 6. Merchant Account Exchange Feature
-
-• When no buyer is available, notify merchant:
-
-“Would you like to sell to Paylexa at rate XYZ?”
-
-• If yes, funds go into wallet
-
-• Platform sets reserve cap per currency PHASE 3: AI + Automation + Regulatory Scaling 1. Enterprise Admin System
-
-• Modular structure for:
-
-o Finance Department (Transactions, wallet audits, logs) o HR Team (Manage staff roles, contracts, permissions) o Tech Department (Access logs, alerts, bug tracking) o Marketing Team (Push updates, promo campaigns)
-
-• Roles & Access Levels
-
-Advanced AI Security System (Full Version)
-• Deep-learning model trained on behavior data
-
-• Predicts account risk level
-
-• Flags abnormal currency movements
-
-• Self-healing system detects platform injection or RAT/malware
-
-• Sends alerts to CTO dashboard
-
-• Initiates lockdown protocol if compromise is detected 3. Compliance Management Engine
-
-• Flags when a country’s regulation is exceeded (e.g. $10,000 per user)
-
-• Tracks KYC/AML thresholds
-
-• Notifies compliance officer
-
-• Automated report generator to regulators (if required) 4. Feature Deactivation/Activation Engine
-
-• Admin can disable any feature by: o Country
-
-o User Type
-
-o Risk Level
-
-• e.g. Virtual Cards disabled in Nigeria, enabled in Canada 5. Corporate/Enterprise Account Tier
-
-• For businesses needing higher limits
-
-• Dedicated Account Manager
-
-• Invoice, payroll and employee wallet issuance
-
-• Can apply to become merchant-partner 6. Advanced Analytics & Reports
-
-• Investor view with monthly KPI dashboard
-
-• API-integrated data reports (automated)
-
-• Export logs to XLS/PDF
-
-• Developer logs and error reporting
-
-Auto Reconciliation + Audit
-• Use AI to reconcile wallet balance + third-party processor logs
-
-• Send alert when mismatch occurs
-
-• Suggest recovery action
-
-DEVELOPMENT LOGIC COMMENTS
-
-• Use Modular Codebase (Microservices or clean architecture) to allow feature isolation.
-
-• All APIs must be secure and properly documented — plan to create sandbox environments for third-party audits.
-
-• Ensure complete versioning of APIs especially with banks, KYC, cards.
-
-• CI/CD pipeline for regular code audits, testing & updates.
-
-🛡 RECOMMENDED API PARTNERS TO AVOID LEGAL ISSUES: Feature
-
-Canada
-
-Nigeria
-
-Recommendation
-
-Sumsub,
-
-VerifyMe,
-
-KYC/AML
-
-Choose one with multi-
-
-Persona
-
-SmileID
-
-country support
-
-Flutterwave,
-
-Payments (Banking) Wise, Interac API
-
-Use regulated providers
-
-Paystack
-
-Union54,
-
-Union54,
-
-Card Issuing
-
-Ensure PCI DSS compliance
-
-Flutterwave
-
-ImaliPay
-
-Crypto
-
-Comply with country crypto
-
-Transak, Banxa YellowCard
-
-onramp/offramp
-
-policies
-
-Legal Audit & Fintech Fasken,
-
-AELEX, TNP
-
-For regulatory filings
-
-Law
-
-McCarthy
-
+Operational guidelines for daily database/Redis exports and Hostinger mirrors live in [`ops/README.md`](ops/README.md). Update the runbook as infrastructure matures.

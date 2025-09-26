@@ -1,0 +1,16 @@
+{
+  "app": {
+    "name": "Paylexa",
+    "tagline": "Premium borderless finance"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "security": "Security",
+    "marketplace": "Marketplace"
+  },
+  "cta": {
+    "getStarted": "Get started",
+    "learnMore": "Learn more"
+  }
+}

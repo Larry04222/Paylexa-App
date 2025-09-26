@@ -1,0 +1,3 @@
+# Mirror of GitHub Actions defined in .github/workflows/ci.yml for ops visibility.
+# Keep this file in sync when CI changes.
+name: Monorepo CI (mirror)

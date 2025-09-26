@@ -1,0 +1,6 @@
+packages:
+  - "paylexa-backend"
+  - "paylexa-web"
+  - "paylexa-admin"
+  - "Paylexa-mobile"
+  - "shared-assets"

@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String             @id @default(cuid())
+  email             String             @unique
+  phone             String?
+  firstName         String?
+  lastName          String?
+  passwordHash      String
+  twoFactorEnabled  Boolean            @default(false)
+  role              UserRole           @default(CUSTOMER)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  wallets           Wallet[]
+  sessions          Session[]
+  fingerprints      DeviceFingerprint[]
+  kyc               Kyc?
+  settings          Settings?
+  statements        Statement[]
+}
+
+enum UserRole {
+  CUSTOMER
+  BUSINESS
+  ADMIN
+}
+
+model Kyc {
+  id             String   @id @default(cuid())
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String   @unique
+  status         KycStatus
+  documentType   String?
+  documentUrl    String?
+  submittedAt    DateTime @default(now())
+  reviewedAt     DateTime?
+}
+
+enum KycStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Wallet {
+  id             String   @id @default(cuid())
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  currency       String
+  balance        Decimal  @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  statements     Statement[]
+}
+
+model Session {
+  id            String   @id @default(cuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  token         String   @unique
+  device        String?
+  ipAddress     String?
+  expiresAt     DateTime
+  createdAt     DateTime @default(now())
+}
+
+model DeviceFingerprint {
+  id         String   @id @default(cuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  hash       String
+  createdAt  DateTime @default(now())
+}
+
+model FeatureToggle {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  enabled   Boolean  @default(true)
+  payload   Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Statement {
+  id          String   @id @default(cuid())
+  wallet      Wallet   @relation(fields: [walletId], references: [id])
+  walletId    String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  amount      Decimal
+  currency    String
+  type        StatementType
+  reference   String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+}
+
+enum StatementType {
+  CREDIT
+  DEBIT
+}
+
+model Settings {
+  id             String  @id @default(cuid())
+  user           User    @relation(fields: [userId], references: [id])
+  userId         String  @unique
+  locale         String  @default("en")
+  marketingOptIn Boolean @default(false)
+}
