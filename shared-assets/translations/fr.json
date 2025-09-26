@@ -1,0 +1,24 @@
+{
+  "app": {
+    "name": "Paylexa",
+    "tagline": "Finance sans frontières avec la sécurité Phoenix"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "wallet": "Portefeuille",
+    "exchange": "Échange P2P",
+    "cards": "Cartes virtuelles",
+    "marketplace": "Marketplace",
+    "support": "Support"
+  },
+  "actions": {
+    "signIn": "Se connecter",
+    "signUp": "Créer un compte",
+    "topUp": "Recharger",
+    "send": "Envoyer de l'argent"
+  },
+  "notifications": {
+    "kycReminder": "Complétez votre KYC pour débloquer des plafonds supérieurs.",
+    "securityAlert": "Morphon-X a signalé une activité inhabituelle. Vérifiez maintenant."
+  }
+}

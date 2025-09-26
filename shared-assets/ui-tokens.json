@@ -1,0 +1,39 @@
+{
+  "colors": {
+    "primary": "#B8860B",
+    "primaryAccent": "#FF7A18",
+    "surface": "#0B0B0B",
+    "surfaceElevated": "#121212",
+    "textPrimary": "#FFFFFF",
+    "textMuted": "#B3B3B3",
+    "success": "#009B77",
+    "info": "#0033A0",
+    "danger": "#FF4D4F"
+  },
+  "typography": {
+    "fontFamilySans": "'Poppins', 'Inter', 'Helvetica Neue', Arial, sans-serif",
+    "fontFamilyMono": "'JetBrains Mono', 'SFMono-Regular', monospace",
+    "headingLineHeight": 1.2,
+    "bodyLineHeight": 1.5
+  },
+  "radius": {
+    "xs": 8,
+    "sm": 12,
+    "md": 16,
+    "lg": 24
+  },
+  "shadow": {
+    "sm": "0 6px 16px rgba(255, 122, 24, 0.12)",
+    "md": "0 12px 32px rgba(0, 51, 160, 0.22)",
+    "lg": "0 24px 64px rgba(0, 0, 0, 0.35)"
+  },
+  "spacing": {
+    "xxs": 4,
+    "xs": 8,
+    "sm": 12,
+    "md": 16,
+    "lg": 24,
+    "xl": 32,
+    "xxl": 48
+  }
+}
