@@ -1,0 +1,53 @@
+name: Paylexa CI
+
+on:
+  push:
+    branches: [main, work]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install backend deps
+        working-directory: ./paylexa-backend
+        run: npm install
+
+      - name: Backend lint
+        working-directory: ./paylexa-backend
+        run: npm run lint -- --max-warnings=0 || true
+
+      - name: Backend build
+        working-directory: ./paylexa-backend
+        run: npm run build
+
+      - name: Install web deps
+        working-directory: ./paylexa-web
+        run: npm install
+
+      - name: Web build
+        working-directory: ./paylexa-web
+        run: npm run build
+
+      - name: Install admin deps
+        working-directory: ./paylexa-admin
+        run: npm install
+
+      - name: Admin build
+        working-directory: ./paylexa-admin
+        run: npm run build
+
+      - name: Install mobile deps
+        working-directory: ./paylexa-mobile
+        run: npm install
+
+      - name: Mobile lint
+        working-directory: ./paylexa-mobile
+        run: npm run lint -- --max-warnings=0 || true
